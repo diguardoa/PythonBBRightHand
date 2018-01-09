@@ -140,12 +140,12 @@ sock_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # 4 = forza indice (verso opposto)
 # 5 = forza medio
 # 6 = forza anulare
-# 7 = forza pollice
-# 8 = rotoidale indice
-# 9 = rotoidale pollice
+# 7 = forza pollice
+# 8 = rotoidale indice
+# 9 = rotoidale pollice
 # 10 = rotoidale medio
 # 11 = A13
-# 12 = A18: 325
+# 12 = A18: 325
 # 13 = A19: PIN LIBERO: Filo Verdino (Mignolo?)
 # 14 = A20: rotoidale spread
 # 15 = Rosso, A15 [POLLICE]
@@ -275,12 +275,11 @@ while True:
     data_out_float[16] = adc_jointpot[4]
 
     #data rotative thumb potentiometers
-	
-	data_out_float[17] = adc_jointpot_thumb[0]
-	data_out_float[18] = adc_jointpot_thumb[1]
-	data_out_float[19] = adc_jointpot_thumb[2]
-	data_out_float[20] = adc_jointpot_thumb[3]
-	data_out_float[21] = adc_jointpot_thumb[4]
+    data_out_float[17] = adc_jointpot_thumb[0]
+    data_out_float[18] = adc_jointpot_thumb[1]
+    data_out_float[19] = adc_jointpot_thumb[2]
+    data_out_float[20] = adc_jointpot_thumb[3]
+    data_out_float[21] = adc_jointpot_thumb[4]
 
     data_out_str = struct.pack("<22f", data_out_float[0], data_out_float[1], data_out_float[2], data_out_float[3], data_out_float[4], data_out_float[5], data_out_float[6], data_out_float[7], data_out_float[8], data_out_float[9], data_out_float[10], data_out_float[11],data_out_float[12], data_out_float[13], data_out_float[14], data_out_float[15], data_out_float[16], data_out_float[17], data_out_float[18], data_out_float[19], data_out_float[20], data_out_float[21])
     sock_out.sendto(data_out_str, (UDP_IP_OUT, UDP_PORT_OUT))
@@ -297,15 +296,15 @@ while True:
     try:
     	i2c_values = i2c.readList(0, 32)
     except:
-    	print "No i2c packet is received"
-    	# blocco i motori
+        print "No i2c packet is received"
+        # blocco i motori
         status = 0.0
-	else:
-	    if i2c_values!=-1:
-	        adc_values = struct.unpack("<16h", bytes(bytearray(i2c.readList(0, 32))))
-	        if j < buff-1:
-	            j = j+1
-	        for i in range(0, 5):
+    else:
+        if i2c_values!=-1:
+            adc_values = struct.unpack("<16h", bytes(bytearray(i2c.readList(0, 32))))
+            if j < buff-1:
+                j = j+1
+            for i in range(0, 5):
 	            index = adc_linpot_i[i]
 	            adc_linpot[i] = adc_values[index]
 
